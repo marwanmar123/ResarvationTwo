@@ -29,12 +29,12 @@ namespace Resarvation.Controllers
         // GET: ReservationController
         public ActionResult Index()
         {
-            List<SelectListItem> Sts = new List<SelectListItem>()
-            {
-                new SelectListItem() {Text="Waiting"},
-                new SelectListItem() { Text="Approved"},
-                new SelectListItem() { Text="Rejected"},
-            };
+            //List<SelectListItem> Sts = new List<SelectListItem>()
+            //{
+            //    new SelectListItem() {Text="Waiting"},
+            //    new SelectListItem() { Text="Approved"},
+            //    new SelectListItem() { Text="Rejected"},
+            //};
             ViewBag.StatuList = Sts;
             var Result = (from r in _db.Reservations
                           join a in _db.Apprenants
