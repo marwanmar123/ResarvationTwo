@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Roles</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info">New Role</a>
+        <a href="Role/AssignRole" class="btn btn-info">Assign Role</a>
+    </div>
+</div>
+<br />
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>
+                Name
+            </th>
+
+            <th></th>
+        </tr>
+        @foreach (var item in ViewBag.Roles)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td style="width: 150px">
+                    <div class="btn-group">
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">
+                            Edit
+                        </a>
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">
+                            Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+
+<h2 class="text-info">Add New User</h2>
+<form asp-action="Create" method="post">
+    <div class="p-4 rounded border">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+        </div>
+        <h1>@ViewBag.msg</h1>
+        <div class="form-group row">
+            <div class="col-2">
+                <label>Role Name</label>
+            </div>
+            <div class="col-5">
+                <input id="name" name="name" required value="@ViewBag.name" class="form-control" />
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Save" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
+
