@@ -29,12 +29,12 @@ namespace Resarvation.Controllers
         // GET: ReservationController
         public ActionResult Index()
         {
-            //List<SelectListItem> Sts = new List<SelectListItem>()
-            //{
-            //    new SelectListItem() {Text="Waiting"},
-            //    new SelectListItem() { Text="Approved"},
-            //    new SelectListItem() { Text="Rejected"},
-            //};
+            List<SelectListItem> Sts = new List<SelectListItem>()
+            {
+                new SelectListItem() {Text="Waiting"},
+                new SelectListItem() { Text="Approved"},
+                new SelectListItem() { Text="Rejected"},
+            };
             ViewBag.StatuList = Sts;
             var Result = (from r in _db.Reservations
                           join a in _db.Apprenants
@@ -132,41 +132,6 @@ namespace Resarvation.Controllers
             return RedirectToAction(nameof(History));
 
         }
-
-        // GET: ReservationController/Edit/5
-        public ActionResult Edit(string id, ReservApprenantViewModel viewModel)
-        {
-            var res = _db.TypeReservations.Where(t => t.Id == viewModel.Id).FirstOrDefault();
-            if (res != null)
-            {
-                var vm = new ReservApprenantViewModel { Id = res.Id };
-
-                if (vm.Reservation != null)
-                {
-                    res.Id = vm.TypeReservationId;
-                }
-            }
-            ViewData["type"] = new SelectList(_db.TypeReservations, "Id", "Name");
-            return View(res);
-        }
-
-        // POST: ReservationController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(ReservApprenantViewModel viewModel)
-        {
-            var res = _db.TypeReservations.Where(t => t.Id == viewModel.Id).FirstOrDefault();
-
-            res.Id = viewModel.TypeReservationId;
-            res.Name = viewModel.Name;
-
-            //_db.Entry(res).State = EntityState.Modified;
-            _db.SaveChanges();
-            ViewData["type"] = new SelectList(_db.TypeReservations, "Id", "Name", viewModel.TypeReservationId);
-            return RedirectToAction(nameof(Index));
-
-        }
-
 
     }
 }

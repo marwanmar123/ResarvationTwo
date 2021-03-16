@@ -15,40 +15,38 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="@User.Identity.Name" readonly class="form-control" />
+                <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>*@
-            @*<div class="form-group">
-                    <label asp-for="Date" class="control-label"></label>
-                    <input asp-for="Date" class="form-control" />
-                    <span asp-validation-for="Date" class="text-danger"></span>
-                </div>*@
-            @*<div class="form-group">
-                    <label asp-for="Status" class="control-label"></label>
-                    <input asp-for="Status" class="form-control" />
-                    <span asp-validation-for="Status" class="text-danger"></span>
-                </div>*@
-            @*<div class="form-group">
-                    <label asp-for="Cause" class="control-label"></label>
-                    <input asp-for="Cause" class="form-control" />
-                    <span asp-validation-for="Cause" class="text-danger"></span>
-                </div>*@
-            @*<div class="form-group">
-                    <label asp-for="TypeReservationId" class="control-label"></label>
-                    <input asp-for="TypeReservationId" class="form-control" />
-                    <span asp-validation-for="TypeReservationId" class="text-danger"></span>
-                </div>*@
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cause" class="control-label"></label>
+                <input asp-for="Cause" class="form-control" />
+                <span asp-validation-for="Cause" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="TypeReservationId" class="control-label"></label>
-                <select asp-for="TypeReservationId" required="required" asp-items="@ViewBag.type" class="form-control custom-select">
-                    <option disabled selected>- Reservation Type -</option>
-                </select>
+                <select asp-for="TypeReservationId" class="form-control" asp-items="ViewBag.TypeReservationId"></select>
                 <span asp-validation-for="TypeReservationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -61,3 +59,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
