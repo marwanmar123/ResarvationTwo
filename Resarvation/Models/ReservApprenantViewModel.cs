@@ -11,7 +11,7 @@ namespace Resarvation.Models
         public string UserName { get; set; }
         public string Email { get; set; }
         public DateTime Date { get; set; }
-        public string Status { get; set; }
+        public bool? Status { get; set; }
         public string Cause { get; set; }
         public string TypeReservationId { get; set; }
         public string Name { get; set; }

@@ -2,10 +2,9 @@
 
 @{
     ViewData["Title"] = "Index";
+
 }
-
 <h1>Index</h1>
-
 
 
 <p>
@@ -13,6 +12,7 @@
 </p>
 <table class="table">
     <thead>
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
@@ -32,7 +32,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -49,7 +49,21 @@
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @if (item.Status == true)
+                    {
+                        <p>Approved</p>
+                    }
+                    else if (item.Status == false)
+                    {
+
+
+                        <p>Rejected</p>
+                    }
+                    else
+                    {
+                        <p>Waiting</p>
+                    }
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cause)
@@ -61,9 +75,16 @@
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                 </td>
                 <td>
-                    <select required="required" asp-items="@ViewBag.StatuList" class="form-control custom-select">
-                        <option disabled selected>- Reservation Type -</option>
-                    </select>
+                    <form style="display:inline;" method="post" asp-action="postdata">
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="hidden" name="Status" value="true" />
+                        <button type="submit" class="btn btn-xs btn-primary">Approved</button>
+                    </form>
+                    <form style="display:inline;" method="post" asp-action="postdata">
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="hidden" name="Status" value="false" />
+                        <button type="submit" class="btn btn-xs btn-danger">rejected</button>
+                    </form>
                 </td>
             </tr>
         }

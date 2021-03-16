@@ -46,7 +46,20 @@
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @if (item.Status == true)
+                    {
+                        <p>Approved</p>
+                    }
+                    else if (item.Status == false)
+                    {
+
+
+                        <p>Rejected</p>
+                    }
+                    else
+                    {
+                        <p>Waiting</p>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cause)

@@ -1,12 +1,21 @@
-﻿@model Resarvation.Models.ReservApprenantViewModel
+﻿@model Resarvation.Models.Reservation
 
 @{
     ViewData["Title"] = "Edit";
+
+    List<SelectListItem> Sts = new List<SelectListItem>()
+{
+
+                new SelectListItem() { Text="Approved", Value="True"},
+                new SelectListItem() { Text="Rejected", Value="False"},
+            };
+
+
 }
 
 <h1>Edit</h1>
 
-<h4>ReservApprenantViewModel</h4>
+<h4>Reservation</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,39 +23,30 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
+                <label class="control-label">Status</label>
+                <select required="required" asp-for="Status" asp-items="@Sts" id="stat" class="form-control custom-select">
+                    <option disabled selected>- status Type -</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Cause" class="control-label"></label>
                 <input asp-for="Cause" class="form-control" />
                 <span asp-validation-for="Cause" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TypeReservationId" class="control-label"></label>
-                <select asp-for="TypeReservationId" class="form-control" asp-items="ViewBag.TypeReservationId"></select>
-                <span asp-validation-for="TypeReservationId" class="text-danger"></span>
+            <div class="form-group d-none">
+                <label asp-for="ApprenantId" class="control-label"></label>
+                <input asp-for="ApprenantId" class="form-control" />
+                <span asp-validation-for="ApprenantId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="form-group d-none">
+                <label asp-for="TypeReservationId" class="control-label"></label>
+                <input asp-for="TypeReservationId" class="form-control" />
+                <span asp-validation-for="TypeReservationId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

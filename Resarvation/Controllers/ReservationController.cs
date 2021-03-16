@@ -8,6 +8,7 @@ using Resarvation.Data;
 using Resarvation.Models;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -29,13 +30,6 @@ namespace Resarvation.Controllers
         // GET: ReservationController
         public ActionResult Index()
         {
-            List<SelectListItem> Sts = new List<SelectListItem>()
-            {
-                new SelectListItem() {Text="Waiting"},
-                new SelectListItem() { Text="Approved"},
-                new SelectListItem() { Text="Rejected"},
-            };
-            ViewBag.StatuList = Sts;
             var Result = (from r in _db.Reservations
                           join a in _db.Apprenants
                           on r.Apprenant.Id equals a.Id
@@ -44,7 +38,7 @@ namespace Resarvation.Controllers
 
                           select new ReservApprenantViewModel
                           {
-                              Id = a.Id,
+                              Id = r.Id,
                               UserName = a.UserName,
                               Email = a.Email,
                               Date = r.Date,
@@ -60,6 +54,28 @@ namespace Resarvation.Controllers
         }
 
 
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult postdata(bool status, string id)
+        {
+
+
+            var resId = _db.Reservations.FirstOrDefault(a => a.Id == id);
+            resId.Status = status;
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+
+
+
+        }
+
+
+
+
+
         public ActionResult History()
         {
 
@@ -73,7 +89,7 @@ namespace Resarvation.Controllers
                           where a.Id == us
                           select new ReservApprenantViewModel
                           {
-                              Id = a.Id,
+                              Id = r.Id,
                               UserName = a.UserName,
                               Email = a.Email,
                               Date = r.Date,
@@ -132,6 +148,43 @@ namespace Resarvation.Controllers
             return RedirectToAction(nameof(History));
 
         }
+
+
+        public IActionResult Edit(string id)
+        {
+            //dynamic mymodel = new ExpandoObject();
+
+            //mymodel.;
+
+            var find = _db.Reservations.Find(id);
+            //var find = (from r in _db.Reservations
+            //            where r.Id == id
+            //            select r).First();
+
+            return View(find);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string id, Reservation reservation)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //var find = _db.Reservations.Find(id);
+                    _db.Reservations.Update(reservation);
+                    _db.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+            }
+            return View(reservation);
+        }
+
+
 
     }
 }

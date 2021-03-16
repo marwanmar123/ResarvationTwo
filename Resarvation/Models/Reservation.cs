@@ -17,7 +17,7 @@ namespace Resarvation.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public DateTime Date { get; set; }
-        public string Status { get; set; }
+        public bool? Status { get; set; }
         public string Cause { get; set; }
 
         public string ApprenantId { get; set; }
