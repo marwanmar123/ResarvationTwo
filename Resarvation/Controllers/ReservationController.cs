@@ -18,12 +18,12 @@ namespace Resarvation.Controllers
     public class ReservationController : Controller
     {
         ApplicationDbContext _db;
+        private readonly UserManager<IdentityUser> _userManager;
 
-
-
-        public ReservationController(ApplicationDbContext db)
+        public ReservationController(ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         [Authorize(Roles = "admin")]
@@ -54,21 +54,14 @@ namespace Resarvation.Controllers
         }
 
 
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult postdata(bool status, string id)
         {
-
-
             var resId = _db.Reservations.FirstOrDefault(a => a.Id == id);
             resId.Status = status;
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
-
-
 
         }
 
@@ -112,14 +105,14 @@ namespace Resarvation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ReservApprenantViewModel viewModel)
+        public async Task<IActionResult> Create(ReservApprenantViewModel viewModel, Apprenant apprenant)
         {
 
 
             Reservation resarvation = new Reservation()
             {
                 Date = viewModel.Date,
-                Status = viewModel.Status,
+                //Status = viewModel.Status,
                 Cause = viewModel.Cause
 
             };
@@ -152,14 +145,10 @@ namespace Resarvation.Controllers
 
         public IActionResult Edit(string id)
         {
-            //dynamic mymodel = new ExpandoObject();
 
-            //mymodel.;
 
             var find = _db.Reservations.Find(id);
-            //var find = (from r in _db.Reservations
-            //            where r.Id == id
-            //            select r).First();
+
 
             return View(find);
         }
@@ -171,7 +160,7 @@ namespace Resarvation.Controllers
             {
                 try
                 {
-                    //var find = _db.Reservations.Find(id);
+
                     _db.Reservations.Update(reservation);
                     _db.SaveChanges();
                     return RedirectToAction(nameof(Index));
@@ -185,6 +174,12 @@ namespace Resarvation.Controllers
         }
 
 
+
+        //private int ResCount(Reservation res)
+        //{
+        //    var dt = res.Apprenant.ResCount + 1;
+        //    return dt;
+        //}
 
     }
 }
