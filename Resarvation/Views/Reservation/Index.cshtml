@@ -5,6 +5,20 @@
 
 }
 <h1>Index</h1>
+<p>@ViewBag.hsb</p>
+
+
+
+
+<form asp-action="Filter" asp-controller="Reservation">
+
+    <label for="filtr">Date</label>
+    <input type="date" name="filtr" id="filter" />
+    <button type="submit" class="btn p-1">&#128270;</button>
+
+</form>
+
+
 
 
 <p>
@@ -32,6 +46,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
+            <th>ResCount</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -72,20 +87,23 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @Html.DisplayFor(modelItem => item.ResCount)
                 </td>
                 <td>
-                    <form style="display:inline;" method="post" asp-action="postdata">
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <input type="hidden" name="Status" value="true" />
-                        <button type="submit" class="btn btn-xs btn-primary">Approved</button>
-                    </form>
-                    <form style="display:inline;" method="post" asp-action="postdata">
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <input type="hidden" name="Status" value="false" />
-                        <button type="submit" class="btn btn-xs btn-danger">rejected</button>
-                    </form>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                 </td>
+                @*<td>
+                        <form style="display:inline;" method="post" asp-action="postdata">
+                            <input type="hidden" name="Id" value="@item.Id" />
+                            <input type="hidden" name="Status" value="true" />
+                            <button type="submit" class="btn btn-xs btn-primary">Approved</button>
+                        </form>
+                        <form style="display:inline;" method="post" asp-action="postdata">
+                            <input type="hidden" name="Id" value="@item.Id" />
+                            <input type="hidden" name="Status" value="false" />
+                            <button type="submit" class="btn btn-xs btn-danger">rejected</button>
+                        </form>
+                    </td>*@
             </tr>
         }
     </tbody>

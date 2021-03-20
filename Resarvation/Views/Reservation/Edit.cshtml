@@ -5,10 +5,12 @@
 
     List<SelectListItem> Sts = new List<SelectListItem>()
 {
+        new SelectListItem() { Text="Approved", Value="True"},
+        new SelectListItem() { Text="Rejected", Value="False"},
+    };
 
-                new SelectListItem() { Text="Approved", Value="True"},
-                new SelectListItem() { Text="Rejected", Value="False"},
-            };
+
+
 
 
 }
@@ -49,7 +51,7 @@
                 <span asp-validation-for="TypeReservationId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" name="changeDate" />
             </div>
         </form>
     </div>
@@ -58,6 +60,14 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+@*<script>
+
+        let changeDate = () => {
+            this.ParentElement.Submit();
+        }
+    </script>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

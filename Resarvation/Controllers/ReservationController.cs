@@ -18,7 +18,7 @@ namespace Resarvation.Controllers
     public class ReservationController : Controller
     {
         ApplicationDbContext _db;
-        private readonly UserManager<IdentityUser> _userManager;
+        UserManager<IdentityUser> _userManager;
 
         public ReservationController(ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
@@ -28,7 +28,7 @@ namespace Resarvation.Controllers
 
         [Authorize(Roles = "admin")]
         // GET: ReservationController
-        public ActionResult Index()
+        public ActionResult Index(Reservation reservation)
         {
             var Result = (from r in _db.Reservations
                           join a in _db.Apprenants
@@ -46,25 +46,63 @@ namespace Resarvation.Controllers
                               Status = r.Status,
                               TypeReservationId = tr.Id,
                               Name = tr.Name,
+                              ResCount = a.ResCount
                           }).ToList();
 
 
+            var usr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cnt = _db.Reservations.Where(x => x.Status.Value == true).Where(x => x.ApprenantId == usr);
+            int count = cnt.Count();
+            var edit = _db.Apprenants.Where(w => w.ResCount == count);
+
+            ViewBag.hsb = count;
 
             return View("Index", Result);
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult postdata(bool status, string id)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult postdata(bool status, string id)
+        //{
+
+        //    var resId = _db.Reservations.FirstOrDefault(a => a.Id == id);
+        //    resId.Status = status;
+        //    _db.SaveChanges();
+        //    return RedirectToAction(nameof(Index));
+
+        //}
+
+
+        public ActionResult Filter(DateTime filtr, ReservApprenantViewModel viewModel)
         {
-            var resId = _db.Reservations.FirstOrDefault(a => a.Id == id);
-            resId.Status = status;
-            _db.SaveChanges();
-            return RedirectToAction(nameof(Index));
-
+            if (filtr.Year == 0001)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                var Result = (from r in _db.Reservations
+                              join a in _db.Apprenants
+                              on r.Apprenant.Id equals a.Id
+                              join tr in _db.TypeReservations
+                              on r.TypeReservation.Id equals tr.Id
+                              where r.Date == filtr
+                              select new ReservApprenantViewModel
+                              {
+                                  Id = r.Id,
+                                  UserName = a.UserName,
+                                  Email = a.Email,
+                                  Date = r.Date,
+                                  Cause = r.Cause,
+                                  Status = r.Status,
+                                  TypeReservationId = tr.Id,
+                                  Name = tr.Name,
+                                  ResCount = a.ResCount
+                              }).ToList();
+                return View("Index", Result);
+            }
         }
-
 
 
 
@@ -89,8 +127,17 @@ namespace Resarvation.Controllers
                               Cause = r.Cause,
                               Status = r.Status,
                               TypeReservationId = tr.Id,
-                              Name = tr.Name
+                              Name = tr.Name,
+                              ResCount = a.ResCount
                           }).ToList();
+            var usr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var cnt = _db.Reservations.Where(x => x.Status.Value == true).Where(x => x.ApprenantId == usr);
+            int count = cnt.Count();
+
+
+
+            ViewBag.hsb = count;
 
             return View(Result);
         }
@@ -107,7 +154,6 @@ namespace Resarvation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ReservApprenantViewModel viewModel, Apprenant apprenant)
         {
-
 
             Reservation resarvation = new Reservation()
             {
@@ -127,6 +173,8 @@ namespace Resarvation.Controllers
             resarvation.TypeReservation = type;
 
             _db.Reservations.Add(resarvation);
+
+
 
             await _db.SaveChangesAsync();
 
@@ -154,15 +202,45 @@ namespace Resarvation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(string id, Reservation reservation)
+        public async Task<IActionResult> Edit(string id, Reservation reservation)
         {
+
             if (ModelState.IsValid)
             {
+
                 try
                 {
 
-                    _db.Reservations.Update(reservation);
-                    _db.SaveChanges();
+                    var res = _db.Reservations.Find(reservation.Id);
+
+                    res.Status = reservation.Status;
+                    res.Cause = reservation.Cause;
+                    res.Date = reservation.Date;
+
+
+                    _db.Reservations.Update(res);
+
+                    var ListResAppr = _db.Reservations
+
+                        .Include(r => r.Apprenant)
+
+                        .Where(r => r.ApprenantId == reservation.ApprenantId)
+                        .ToList();
+
+                    var count = ListResAppr.Count();
+                    var appr = _db.Find<Apprenant>(reservation.ApprenantId);
+
+                    if (reservation.Status == true)
+                    {
+                        appr.ResCount = count;
+                        _db.Apprenants.Update(appr);
+                    }
+
+
+                    //apprenant.ResCount = count;
+
+
+                    await _db.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
@@ -170,16 +248,11 @@ namespace Resarvation.Controllers
                     throw;
                 }
             }
+
             return View(reservation);
         }
 
 
-
-        //private int ResCount(Reservation res)
-        //{
-        //    var dt = res.Apprenant.ResCount + 1;
-        //    return dt;
-        //}
 
     }
 }

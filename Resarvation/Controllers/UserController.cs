@@ -13,7 +13,7 @@ namespace Resarvation.Controllers
     public class UserController : Controller
     {
         ApplicationDbContext _db;
-        private readonly UserManager<IdentityUser> _userManager;
+        UserManager<IdentityUser> _userManager;
 
         public UserController(ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
@@ -34,11 +34,28 @@ namespace Resarvation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Apprenant apprenant)
+        public async Task<IActionResult> Create(Apprenant apprenant, Reservation reservation)
         {
 
             if (ModelState.IsValid)
             {
+
+
+                //var rsrvId = reservation.ApprenantId;
+                //var st = from a in _db.Apprenants where a.Id == rsrvId select a.Id;
+                //var cnt = _db.Reservations.Where(x => x.Status.Value == true).Where(x => x.ApprenantId == rsrvId);
+                //int count = cnt.Count();
+
+                //var edit = _db.Apprenants.Where(w => w.ResCount == count);
+
+
+                //_db.Apprenants.Update((Apprenant)edit);
+
+
+
+
+
+
                 _db.Add(apprenant);
                 await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -145,5 +162,7 @@ namespace Resarvation.Controllers
 
             return View(user);
         }
+
+
     }
 }
