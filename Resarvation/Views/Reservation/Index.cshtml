@@ -1,4 +1,10 @@
-﻿@model IEnumerable<Resarvation.Models.ReservApprenantViewModel>
+﻿
+@using X.PagedList.Mvc.Core; <!--import to get HTML Helper-->
+@using X.PagedList;
+
+
+
+@model IEnumerable<Resarvation.Models.ReservApprenantViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,18 +12,27 @@
 }
 <h1>Index</h1>
 
+<h1>@Model.Count()</h1>
 
-<form asp-action="Filter" asp-controller="Reservation">
+<div class="d-flex justify-content-between">
+    <form asp-action="Filter" asp-controller="Reservation">
 
-    <label for="filtr">Date</label>
-    <input type="date" name="filtr" id="filter" />
-    <button type="submit" class="btn p-1">&#128270;</button>
+        <label for="filtr">Date</label>
+        <input type="date" name="filtr" id="filter" />
+        <button type="submit" class="btn p-1">&#128270;</button>
 
-</form>
-
-
+    </form>
 
 
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+        new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
+        {
+            DisplayItemSliceAndTotal = true,
+            ContainerDivClasses = new[] { "navigation" },
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" },
+        })
+</div>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -105,3 +120,13 @@
         }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+        // Workaround to fix style of text for showing items .. through ..
+        // Problem related to Boostrap 4 according to issue in link below
+        // https://github.com/dncuug/X.PagedList/issues/127
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}

@@ -12,6 +12,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Resarvation.Controllers
 {
@@ -28,8 +29,12 @@ namespace Resarvation.Controllers
 
         [Authorize(Roles = "admin")]
         // GET: ReservationController
-        public ActionResult Index(Reservation reservation)
+        public ActionResult Index(int? page)
         {
+
+
+            var pageNumber = page ?? 1;
+            int pageSize = 5;
             var Result = (from r in _db.Reservations
                           join a in _db.Apprenants
                           on r.Apprenant.Id equals a.Id
@@ -47,7 +52,7 @@ namespace Resarvation.Controllers
                               TypeReservationId = tr.Id,
                               Name = tr.Name,
                               ResCount = a.ResCount
-                          }).ToList();
+                          }).OrderBy(a => a.ResCount).ToList().ToPagedList(pageNumber, pageSize); ;
 
 
             return View("Index", Result);
