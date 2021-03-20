@@ -50,13 +50,6 @@ namespace Resarvation.Controllers
                           }).ToList();
 
 
-            var usr = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var cnt = _db.Reservations.Where(x => x.Status.Value == true).Where(x => x.ApprenantId == usr);
-            int count = cnt.Count();
-            var edit = _db.Apprenants.Where(w => w.ResCount == count);
-
-            ViewBag.hsb = count;
-
             return View("Index", Result);
         }
 
