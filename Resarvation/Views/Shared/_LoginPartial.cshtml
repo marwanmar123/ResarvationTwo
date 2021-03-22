@@ -11,21 +11,21 @@
 
             <div class="nav-menu d-flex justify-content-between">
                 <li class="nav-item pl-3 pr-3">
-                    <a class="nav-link text-light text-black-50" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
+                    <a class="nav-link text-light text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
                 </li>
                 <li class="nav-item">
                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                        <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
                     </form>
                 </li>
 
                 @if (User.IsInRole("admin"))
                 {
-                    <a class="ml-4" asp-controller="Role" asp-action="Index">Role</a>
-                    <a class="ml-4" asp-controller="User" asp-action="Index">Users Controle</a>
-                    <a class="ml-4" asp-controller="Reservation" asp-action="Index">Reservations</a>
-                    <a class="ml-4" asp-controller="TypeReservations" asp-action="Index">Type Reserv</a>
-                    <a class="ml-4" asp-controller="Reservation" asp-action="History">history</a>
+                    <a class="nav-item nav-link ml-4" asp-controller="Role" asp-action="Index">Role</a>
+                    <a class="nav-item nav-link ml-4" asp-controller="User" asp-action="Index">Users Controle</a>
+                    <a class="nav-item nav-link ml-4" asp-controller="Reservation" asp-action="Index">Reservations</a>
+                    <a class="nav-item nav-link ml-4" asp-controller="TypeReservations" asp-action="Index">Type Reserv</a>
+                    <a class="nav-item nav-link ml-4" asp-controller="Reservation" asp-action="History">history</a>
                 }
                 @if (User.IsInRole("apprenant"))
                 {
@@ -45,10 +45,10 @@
         <div class="d-flex">
 
             <li class="nav-item">
-                <a class="nav-link text-dark pl-3" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                <a class="nav-link text-white pl-3" asp-area="Identity" asp-page="/Account/Register">Register</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark pl-3" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                <a class="nav-link text-white pl-3" asp-area="Identity" asp-page="/Account/Login">Login</a>
             </li>
         </div>
     }
