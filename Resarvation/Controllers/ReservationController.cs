@@ -40,7 +40,7 @@ namespace Resarvation.Controllers
                           on r.Apprenant.Id equals a.Id
                           join tr in _db.TypeReservations
                           on r.TypeReservation.Id equals tr.Id
-
+                          where r.Date == DateTime.Today
                           select new ReservApprenantViewModel
                           {
                               Id = r.Id,
@@ -57,6 +57,39 @@ namespace Resarvation.Controllers
 
             return View("Index", Result);
         }
+
+
+
+        public ActionResult GetAll(int? page)
+        {
+
+
+            var pageNumber = page ?? 1;
+            int pageSize = 30;
+            var Result = (from r in _db.Reservations
+                          join a in _db.Apprenants
+                          on r.Apprenant.Id equals a.Id
+                          join tr in _db.TypeReservations
+                          on r.TypeReservation.Id equals tr.Id
+                          select new ReservApprenantViewModel
+                          {
+                              Id = r.Id,
+                              UserName = a.UserName,
+                              Email = a.Email,
+                              Date = r.Date,
+                              Cause = r.Cause,
+                              Status = r.Status,
+                              TypeReservationId = tr.Id,
+                              Name = tr.Name,
+                              ResCount = a.ResCount
+                          }).OrderBy(a => a.ResCount).ToList().ToPagedList(pageNumber, pageSize); ;
+
+
+            return View("Index", Result);
+        }
+
+
+
 
 
         //[HttpPost]

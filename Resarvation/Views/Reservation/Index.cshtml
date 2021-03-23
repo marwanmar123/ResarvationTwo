@@ -24,17 +24,19 @@
     </form>
 
 
-    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+    @*@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
         new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
         {
             DisplayItemSliceAndTotal = true,
             ContainerDivClasses = new[] { "navigation" },
             LiElementClasses = new[] { "page-item" },
             PageClasses = new[] { "page-link" },
-        })
+        })*@
 </div>
-<p>
-    <a asp-action="Create">Create New</a>
+<p class="d-flex justify-content-around">
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+    <a class="btn btn-dark" asp-action="Index">ToDay</a>
+    <a class="btn btn-info" asp-action="GetAll">All</a>
 </p>
 <table class="table table-dark table-striped text-center">
     <thead>
