@@ -129,7 +129,7 @@ namespace Resarvation.Controllers
                                   Name = tr.Name,
                                   ResCount = a.ResCount
                               }).ToList();
-                return View("GetAll", Result);
+                return View("Index", Result);
             }
         }
 

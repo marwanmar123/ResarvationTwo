@@ -15,13 +15,7 @@
 <h1>@Model.Count()</h1>
 
 <div class="d-flex justify-content-between">
-    <form asp-action="Filter" asp-controller="Reservation">
 
-        <label for="filtr">Date</label>
-        <input type="date" name="filtr" id="filter" />
-        <button type="submit" class="btn p-1">&#128270;</button>
-
-    </form>
 
 
     @*@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
@@ -33,11 +27,16 @@
             PageClasses = new[] { "page-link" },
         })*@
 </div>
-<p class="d-flex justify-content-around">
+<div class="d-flex justify-content-between p-3">
     <a class="btn btn-success" asp-action="Create">Create New</a>
     <a class="btn btn-dark" asp-action="Index">ToDay</a>
     <a class="btn btn-info" asp-action="GetAll">All</a>
-</p>
+    <form asp-action="Filter" asp-controller="Reservation">
+        <input type="date" name="filtr" id="filter" />
+        <button type="submit" class="btn p-1">&#128270;</button>
+
+    </form>
+</div>
 <table class="table table-dark table-striped text-center">
     <thead>
 
