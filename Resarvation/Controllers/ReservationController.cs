@@ -33,8 +33,8 @@ namespace Resarvation.Controllers
         {
 
 
-            var pageNumber = page ?? 1;
-            int pageSize = 5;
+            //var pageNumber = page ?? 1;
+            //int pageSize = 5;
             var Result = (from r in _db.Reservations
                           join a in _db.Apprenants
                           on r.Apprenant.Id equals a.Id
@@ -52,7 +52,9 @@ namespace Resarvation.Controllers
                               TypeReservationId = tr.Id,
                               Name = tr.Name,
                               ResCount = a.ResCount
-                          }).OrderBy(a => a.ResCount).ToList().ToPagedList(pageNumber, pageSize); ;
+                          }).OrderBy(a => a.ResCount).ToList();
+            //ToList + down comment
+            //.ToPagedList(pageNumber, pageSize)
 
 
             return View("Index", Result);
@@ -62,10 +64,6 @@ namespace Resarvation.Controllers
 
         public ActionResult GetAll(int? page)
         {
-
-
-            var pageNumber = page ?? 1;
-            int pageSize = 30;
             var Result = (from r in _db.Reservations
                           join a in _db.Apprenants
                           on r.Apprenant.Id equals a.Id
@@ -82,7 +80,7 @@ namespace Resarvation.Controllers
                               TypeReservationId = tr.Id,
                               Name = tr.Name,
                               ResCount = a.ResCount
-                          }).OrderBy(a => a.ResCount).ToList().ToPagedList(pageNumber, pageSize); ;
+                          }).OrderBy(a => a.ResCount).ToList();
 
 
             return View("Index", Result);
@@ -131,7 +129,7 @@ namespace Resarvation.Controllers
                                   Name = tr.Name,
                                   ResCount = a.ResCount
                               }).ToList();
-                return View("Index", Result);
+                return View("GetAll", Result);
             }
         }
 
@@ -215,7 +213,7 @@ namespace Resarvation.Controllers
             if (User.IsInRole("admin"))
             {
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(GetAll));
             }
             return RedirectToAction(nameof(History));
 
@@ -272,7 +270,7 @@ namespace Resarvation.Controllers
 
 
                     await _db.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(GetAll));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
