@@ -4,5 +4,24 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a class="text-warning" href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Learn about <a class="text-warning" href="https://youcode.ma/">building Web apps in Youcode</a>.</p>
 </div>
+
+
+
+<a href="Identity/Account/Login" class="zcode nav-item nav-link text-warning">Reservé</a>
+@if (User.IsInRole("admin"))
+{
+
+    <a asp-controller="Reservation" asp-action="Index" class="zcode nav-item nav-link text-warning">Reservé</a>
+}
+@if (User.IsInRole("apprenant"))
+{
+
+    <a asp-controller="Reservation" asp-action="History" class="zcode nav-item nav-link text-warning">Reservé</a>
+
+}
+
+@*<div class="wrap">
+        <button class="button"><a asp-controller="Reservation" asp-action="Index" class="zcode nav-item nav-link text-warning">Reservé</a></button>
+    </div>*@
