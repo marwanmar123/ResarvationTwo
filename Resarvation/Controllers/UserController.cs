@@ -14,18 +14,41 @@ namespace Resarvation.Controllers
     {
         ApplicationDbContext _db;
         UserManager<IdentityUser> _userManager;
+        RoleManager<IdentityRole> _roleManager;
 
-        public UserController(ApplicationDbContext db, UserManager<IdentityUser> userManager)
+        public UserController(ApplicationDbContext db, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var res = _db.Apprenants.ToList();
+            var users = await _userManager.Users.ToListAsync();
+            var viewModel = new List<ReservApprenantViewModel>();
+
+
+            foreach (IdentityUser user in users)
+            {
+                var Vmodel = new ReservApprenantViewModel();
+                Vmodel.Email = user.Email;
+                Vmodel.UserName = user.UserName;
+                Vmodel.Roles = await roleUser(user);
+                viewModel.Add(Vmodel);
+            }
+
+
+
+
+            //var res = _db.Apprenants.ToList();
             //ViewBag.Data = res;
-            return View(res);
+            //return View();
+            return View(viewModel);
+        }
+        public async Task<List<string>> roleUser(IdentityUser user)
+        {
+            return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
         public IActionResult Create()

@@ -21,5 +21,7 @@ namespace Resarvation.Models
         public Reservation Reservation { get; set; }
         public TypeReservation typeReservation { get; set; }
         public int ResCount { get; set; }
+
+        public List<string> Roles { get; set; }
     }
 }

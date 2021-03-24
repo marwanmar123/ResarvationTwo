@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Apprenant>
+﻿@*@model IEnumerable<Apprenant>*@
+@*@using Resarvation.Models*@
+@model List<ReservApprenantViewModel>
 @{
     ViewData["Title"] = "Index";
 }
@@ -24,6 +26,9 @@
                 Email
             </th>
             <th>
+                Role
+            </th>
+            <th>
                 action
             </th>
         </tr>
@@ -32,6 +37,8 @@
             <tr>
                 <td>@item.UserName</td>
                 <td>@item.Email</td>
+                <td>@string.Join("/", item.Roles.ToList())</td>
+
 
 
                 <td>

@@ -9,6 +9,10 @@ namespace Resarvation.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public ApplicationDbContext()
+        {
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -17,6 +21,7 @@ namespace Resarvation.Data
         public virtual DbSet<Apprenant> Apprenants { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<TypeReservation> TypeReservations { get; set; }
+        //public DbSet<Resarvation.Models.ReservApprenantViewModel> ReservApprenantViewModel { get; set; }
         //public DbSet<Resarvation.Models.ReservApprenantViewModel> ReservApprenantViewModel { get; set; }
 
 
