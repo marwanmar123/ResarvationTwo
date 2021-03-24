@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Resarvation.Data;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Resarvation.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class UserController : Controller
     {
         ApplicationDbContext _db;

@@ -61,7 +61,7 @@ namespace Resarvation.Controllers
         }
 
 
-
+        [Authorize(Roles = "admin")]
         public ActionResult GetAll(int? page)
         {
             var Result = (from r in _db.Reservations
@@ -219,7 +219,7 @@ namespace Resarvation.Controllers
 
         }
 
-
+        [Authorize(Roles = "admin")]
         public IActionResult Edit(string id)
         {
 

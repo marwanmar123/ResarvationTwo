@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Resarvation.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class RoleController : Controller
     {
         RoleManager<IdentityRole> _roleManager;
