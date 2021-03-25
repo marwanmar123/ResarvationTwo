@@ -47,6 +47,11 @@ namespace Resarvation.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "Class")]
+            public string Class { get; set; }
+
+
+            [Required]
             [Display(Name = "UserName")]
             public string UserName { get; set; }
 
@@ -80,7 +85,7 @@ namespace Resarvation.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new Apprenant { UserName = Input.UserName, Email = Input.Email };
+                var user = new Apprenant { UserName = Input.UserName, Email = Input.Email, Class = Input.Class };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
