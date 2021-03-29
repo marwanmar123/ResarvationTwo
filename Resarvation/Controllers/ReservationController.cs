@@ -213,7 +213,7 @@ namespace Resarvation.Controllers
             if (User.IsInRole("admin"))
             {
 
-                return RedirectToAction(nameof(GetAll));
+                return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(History));
 
